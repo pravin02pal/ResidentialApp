@@ -1,0 +1,22 @@
+<div ng-init="getNotAllotedRooms()" ng-controller="roomCtrl">
+
+  <h1>Assign Room</h1><br></br>
+  	
+    <!---Form name=roomForm-->
+    <form name="roomForm">	
+    	
+      <!---select room number,  ngmodel=room_id-->
+       <div class="input-group" >
+          <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+          <select ng-options="room.id as room.rnumber for room in selected_rooms"  class="form-control input-lg " ng-model="room_id"><option value="" ng-hide="true" >Select Room Number</option></select>
+       </div><br/>
+       
+      <!---Submit button, type=submit-->
+       <div class="form-group">
+          <button type="submit" ng-click="assign_room()"class="btn btn-block btn-primary ">Save</button>
+       </div>
+
+       
+    </form>
+    
+</div>

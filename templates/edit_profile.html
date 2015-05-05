@@ -1,0 +1,76 @@
+<div ng-init="editUser()">
+
+  <h1>Edit Profile{{xyz}}</h1><br></br>
+  <div ></div>
+  	
+    <!---Form name=editForm-->
+    <form name="editForm"  ng-submit="updateUser(user.id)">
+		
+       <!---Input First Name, type=text, name=fname, ngmodel=first_name, ng-pattern-->
+       <div class="input-group ">
+          <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+          <input class="form-control input-lg" ng-pattern="/[a-zA-Z]$/" ng-model="user.first_name" placeholder="First Name" required="required" maxlength="100" type="text" name="fname"/>
+       </div><span class="has-error" ng-show="editForm.fname.$error.pattern">Invalid Input!</span><br/>
+       
+       <!---Input last Name, type=text, name=lname, ngmodel=last_name, ng-pattern-->
+       <div class="input-group ">
+          <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+          <input class="form-control input-lg" ng-pattern="/[a-zA-Z]$/" ng-model="user.last_name" placeholder="Last Name" required="required" maxlength="100" type="text" name="lname"/>
+       </div><span class="has-error" ng-show="editForm.lname.$error.pattern">Invalid Input!</span><br/>
+             
+       <!---Input Address, type=text, name=address, ngmodel=address-->
+       <div class="input-group ">
+          <span class="input-group-addon"><i class="glyphicon glyphicon-road"></i></span>
+          <input class="form-control input-lg" ng-model="user.address" placeholder="Address" required="required" maxlength="100" type="text" name="address"/>
+       </div><br/>
+       
+       <!---Input Identity Number, type=text, name=id, ngmodel=identity_number-->
+       <div class="input-group ">
+          <span class="input-group-addon"><i class="glyphicon glyphicon-qrcode"></i></span>
+          <input class="form-control input-lg" ng-model="user.identity_number" placeholder="Identity Number" required="required" maxlength="100" type="text" name="id"/>
+       </div><br/>
+       
+       <!---Input Aadhar Number, type=text, name=uid, ngmodel=aadhar_number-->
+       <div class="input-group ">
+          <span class="input-group-addon"><i class="glyphicon glyphicon-star"></i></span>
+          <input class="form-control input-lg" ng-model="user.aadhar_number" plac 	holder="Aadhar Number" required="required" maxlength="100" type="text" name="uid"/>
+       </div><br/>
+        
+       <!---Input PAN Number, type=text, name=pan, ngmodel=pan_number-->
+       <div class="input-group ">
+          <span class="input-group-addon"><i class="glyphicon glyphicon-star-empty"></i></span>
+          <input class="form-control input-lg" ng-model="user.pan_number" placeholder="PAN Number" required="required" maxlength="100" type="text" name="pan"/>
+       </div><br/>
+        
+       <!---Input Marital Status, ngmodel=marital_status-->
+       <div class="input-group " >
+          <span class="input-group-addon"><i class="glyphicon glyphicon-stats"></i></span>
+         <select class="form-control input-lg " ng-model="user.status">
+             <option value="Married">Married</option>
+             <option value="Unmarried">Unmarried</option>
+         </select>
+            </div><br/>
+       
+       <!---Input phone number, type=text, name=phone, ngmodel=phone_number-->
+       <div class="input-group ">
+          <span class="input-group-addon"><i class="glyphicon glyphicon-stats"></i></span>
+          <input class="form-control input-lg" ng-model="user.phone" placeholder="Phone Number" required="required" maxlength="100" type="text" name="phone"/>
+       </div><br/>
+       
+       <!---Input Gender,  ngmodel=gender-->
+       <div class="input-group " >
+          <span class="input-group-addon"><i class="glyphicon glyphicon-stats"></i></span>
+         <select class="form-control input-lg " ng-model="user.gender">
+             <option value="Male">Male</option>
+             <option value="Female">Female</option>
+         </select>
+            </div><br/>
+                   
+       <!---Submit button, type=submit-->
+       <div class="form-group">
+          <button type="submit" class="btn btn-block btn-primary ">Save</button>
+       </div>
+       
+    </form>
+    
+</div>

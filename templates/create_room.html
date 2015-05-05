@@ -1,0 +1,34 @@
+<div ng-controller="roomCtrl">
+
+  <h1>Create Room</h1><br></br>
+  	
+    <!---Form name=roomForm-->
+    <form name="roomForm" ng-submit="createRoom()">	
+    	
+       <!---Input room number, ngmodel=rnumber-->
+       <div class="input-group ">
+          <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+          <input class="form-control input-lg" ng-model="rnumber" placeholder="Room Number" required="required" maxlength="100" type="text" name="type"/>
+       </div><br/>
+         
+       <!---Input room type, type=text,  ngmodel=rtype-->
+       <div class="input-group" >
+          <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+          <select ng-options="room_type.name for room_type in room_types"  class="form-control input-lg " ng-model="rtype"></select>
+       </div><br/>
+       
+       <!---Input room rent, type=number,  ngmodel=rent-->
+       <div class="input-group ">
+          <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+          <input class="form-control input-lg" ng-model="rent" placeholder="Room Rent" required="required" maxlength="100" type="text" name="date"/>
+       </div><br/>
+       
+      <!---Submit button, type=submit-->
+       <div class="form-group">
+          <button type="submit" class="btn btn-block btn-primary ">Save</button>
+       </div>
+
+       
+    </form>
+    
+</div>

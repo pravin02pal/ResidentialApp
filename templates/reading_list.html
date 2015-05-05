@@ -1,0 +1,42 @@
+<div ng-controller="userCtrl">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-2"><h1>All Users </h1></div>
+			<div class="col-sm-1">
+				  <a href="#/addUser"><button class="btn btn-block btn-primary btn-lg">Add User</button></a>
+			</div>
+		</div>
+			
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Address</th>
+          <th>Aadhar Number</th>
+          <th>PAN Number</th>
+          <th>Marital Status</th>
+          <th>phone number</th>
+          <th>Gender</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="user in users">
+          <td>{{ user.first_name }}</td>
+		  <td>{{ user.last_name }}</td>
+		  <td>{{ user.address }}</td>
+		  <td>{{ user.aadhar_number }}</td>
+		  <td>{{ user.pan_number }}</td>
+		  <td>{{ user.status }}</td>
+		  <td>{{ user.phone }}</td>
+		  <td>{{ user.gender }}</td>
+		  <td><a href="#/" title="View Rent" ><span><i class="glyphicon glyphicon-eye-open"></i></span></a>&nbsp; &nbsp;| &nbsp; &nbsp;
+			  <a href="#/editProfile" title="Eidt Profile"  ng-click="edit()" ><span><i class="glyphicon glyphicon-pencil"></i></span></a>&nbsp; &nbsp;| &nbsp; &nbsp;
+		      <a href="#usersList" title="Delete Profile" ng-click="deleteUser(user.id)"><span><i class="glyphicon glyphicon-trash"></i></span></a>
+		  </td>
+        </tr>
+      </tbody>
+    </table>
+</div>

@@ -1,0 +1,41 @@
+<div ng-controller="roomCtrl">
+	
+   <h1>Add Meter Reading</h1><br></br>
+  	
+      <!---Form name=readingForm-->
+         <form name="readingForm">	
+    	
+			   <!---Input meter type, ngmodel=type-->
+			   <div class="input-group ">
+				  <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+				  <input class="form-control input-lg" ng-model="type" placeholder="Meter Type" required="required" maxlength="100" type="text" name="type"/>
+			   </div><br/>
+				 
+			   <!---Input date, type=date, name=date, ngmodel=date-->
+			   <div class="input-group ">
+				  <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+				  <div id="date">
+					  <quick-datepicker ng-model='myDate' date-filter='onlyWeekdays' placeholder="Pick Date" disable-timepicker='true' date-format="dd/MM/yyyy"></quick-datepicker>
+				   </div>
+			   </div><br/>
+      
+				<!---Input reading, type=number, name=reading, ngmodel=reading-->
+			   <div class="input-group ">
+				  <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+				  <input class="form-control input-lg" ng-model="reading" placeholder="Meter Reading" required="required" maxlength="100" type="number" name="reading"/>
+			   </div><br/>
+       
+			   <!---Input room Number, type=text, name=type, ngmodel=roomtype-->
+			   <div class="input-group ">
+				  <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+				  <input class="form-control input-lg" ng-model="room_number" placeholder="Room number" required="required" maxlength="100" type="text" />
+			   </div><br/>
+       
+			  <!---Submit button, type=submit-->
+			   <div class="form-group">
+				  <button type="submit" class="btn btn-block btn-primary ">Save</button>
+			   </div>
+      
+         </form>
+    
+</div>

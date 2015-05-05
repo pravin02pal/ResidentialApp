@@ -1,0 +1,37 @@
+<div ng-init="roomsList()" ng-controller="roomCtrl">
+	
+	<!--Rooms List -->
+	
+	<div  class="container">
+		<div class="row">
+			<div class="col-sm-2"><h1>Rooms</h1></div>
+			<div class="col-sm-1">
+				  <a href="#/createRoom"><button class="btn btn-block btn-primary btn-lg">New Room</button></a>
+			</div>
+		</div>
+			
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Room Number</th>
+          <th>Room Type</th>
+          <th>Rent</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="room in rooms">
+          <td>{{ room.rnumber }}</td>
+		  <td>{{ room.rtype }}</td>
+		  <td>{{ room.rent }}</td>
+		  <td>
+			  <a  href="#/room/{{room.id}}/edit"  title="Eidt Room Rent"><span><i class="glyphicon glyphicon-edit"></i></span></a>&nbsp; &nbsp;| &nbsp; &nbsp;
+		      <a  href="#/room/{{room.id}}/deleted"  ng-click="deleteRoom(room.id)" title="Delete Room"><span><i class="glyphicon glyphicon-trash"></i></span></a>
+		  </td>
+        </tr>
+      </tbody>
+    </table>
+    
+    
+</div>

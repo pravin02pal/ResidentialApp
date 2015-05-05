@@ -1,0 +1,85 @@
+<section ng-controller="userCtrl">
+
+  <h1>Add User</h1><br></br>
+  	
+    <!---Form name=addForm-->
+    <form name="addForm"  ng-submit="addUser()">
+		
+       <!---Input First Name, type=text, name=fname, ngmodel=first_name, ng-pattern-->
+       <div class="input-group ">
+          <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+          <input class="form-control input-lg" ng-pattern="/[a-zA-Z]$/" ng-model="first_name" placeholder="First Name" required="required" maxlength="100" type="text" name="fname"/>
+       </div><span class="has-error" ng-show="addForm.fname.$error.pattern">Invalid Input!</span><br/>
+       
+       <!---Input last Name, type=text, name=lname, ngmodel=last_name, ng-pattern-->
+       <div class="input-group ">
+          <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+          <input class="form-control input-lg" ng-pattern="/[a-zA-Z]$/" ng-model="last_name" placeholder="Last Name" required="required" maxlength="100" type="text" name="lname"/>
+       </div><span class="has-error" ng-show="addForm.lname.$error.pattern">Invalid Input!</span><br/>
+       
+       <!---Input Email type=email, name=email, ngmodel=email, ng-pattern-->
+       <div class="input-group ">
+          <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+          <input class="form-control input-lg" ng-pattern="/[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/" ng-model="email" placeholder="Email" required="required" maxlength="100" type="email" name="email"/>
+       </div><span class="has-error" ng-show="signupForm.email.$error.pattern">Invalid Email format!</span><br/>
+       
+       <!---Input Password, type=password, name=password, ngmodel=password, ng-minlength=6, ng-maxlength=16-->
+       <div class="input-group">
+          <span class="input-group-addon"><i class="glyphicon glyphicon-asterisk"></i></span>
+          <input class="form-control input-lg" placeholder="Password" required="required" ng-model="password" ng-minlength=6 ng-maxlength=16 type="password" name="password"/>
+       </div><span class="has-error" ng-show="signupForm.password.$error.minlength">Your password is required to be at least 6 characters!</span>
+             <span class="has-error" ng-show="signupForm.password.$error.maxlength">Your password cannot be longer than 16 characters!</span><br/>
+             
+       <!---Input Address, type=text, name=address, ngmodel=address-->
+       <div class="input-group ">
+          <span class="input-group-addon"><i class="glyphicon glyphicon-road"></i></span>
+          <input class="form-control input-lg" ng-model="address" placeholder="Address" typeahead="address for address in getLocation($viewValue)" typeahead-loading="loadingLocations" required="required" maxlength="100" type="text" name="address"/>
+       </div><br/>
+       
+       <!---Input Identity Number, type=text, name=id, ngmodel=identity_number-->
+       <div class="input-group ">
+          <span class="input-group-addon"><i class="glyphicon glyphicon-qrcode"></i></span>
+          <input class="form-control input-lg" ng-model="identity_number" placeholder="Identity Number" required="required" maxlength="100" type="text" name="id"/>
+       </div><br/>
+       
+       <!---Input Aadhar Number, type=text, name=uid, ngmodel=aadhar_number-->
+       <div class="input-group ">
+          <span class="input-group-addon"><i class="glyphicon glyphicon-star"></i></span>
+          <input class="form-control input-lg" ng-model="aadhar_number" placeholder="Aadhar Number" required="required" maxlength="100" type="text" name="uid"/>
+       </div><br/>
+        
+       <!---Input PAN Number, type=text, name=pan, ngmodel=pan_number-->
+       <div class="input-group ">
+          <span class="input-group-addon"><i class="glyphicon glyphicon-star-empty"></i></span>
+          <input class="form-control input-lg" ng-model="pan_number" placeholder="PAN Number" required="required" maxlength="100" type="text" name="pan"/>
+       </div><br/>
+        
+       <!---Input Marital Status, ngmodel=marital_status-->
+       <div class="input-group " >
+          <span class="input-group-addon"><i class="glyphicon glyphicon-stats"></i></span>
+         <select class="form-control input-lg " ng-model="status" ng-options="status_opt.name for status_opt in status_opts"></select>
+            </div><br/>
+       
+       <!---Input phone number, type=text, name=phone, ngmodel=phone_number-->
+       <div class="input-group ">
+          <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+          <input class="form-control input-lg" ng-model="phone" placeholder="Phone Number" required="required" maxlength="100" type="text" name="phone"/>
+       </div><br/>
+       
+       <!---Input Gender,  ngmodel=gender-->
+       <div class="input-group" >
+          <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+          <select ng-options="gender_opt.name for gender_opt in gender_opts"  class="form-control input-lg " ng-model="gender"></select>
+       </div><br/>
+            
+       <!---Submit button, type=submit-->
+       <div class="form-group">
+          <button type="submit" id="btn-signup" class="btn btn-block btn-primary ">ADD</button>
+       </div>
+       
+    </form>
+    
+</section>
+
+ 
+

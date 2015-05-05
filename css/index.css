@@ -1,0 +1,35 @@
+body {
+        background-image: url("../images/images2.jpg");
+     }
+     
+section {
+			width:900px;
+			float:center;
+        }
+        
+h1 {
+	   font-size: 36px;
+	   color: white;
+   }
+   
+table {
+          background-color: rgb(255, 255, 255);
+      }
+       
+.col-sm-1 {
+		      width: 20%;
+			  position: fixed;
+			  top: 85px;
+			  right: 10px;
+          }
+          
+#date {
+          background-color:white;
+          width:550px;
+          height: 50px;
+      }
+      
+#room_id {
+             width:550px;
+             height: 50px;
+         }

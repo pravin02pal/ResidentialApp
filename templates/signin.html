@@ -1,0 +1,26 @@
+<div ng-controller="userCtrl">
+  <h1>LogIn</h1><br/>
+	<!---Form name=signinForm-->
+	<form name="signinForm" ng-submit="logIn()">
+		
+	   <!---Email id, type=email name=email,ng-model=email-->
+		  <div class="input-group ">
+			 <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+			 <input class="form-control input-lg" ng-pattern="/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/" ng-model="email" placeholder="Email" required="required" maxlength="100" type="email" name="email"/>
+		  </div><span class="has-error" ng-show="signinForm.email.$error.pattern">Invalid Email format!</span><br/>
+
+	   <!---Password name=password,ng-model=password-->
+		  <div class="input-group">
+			 <span class="input-group-addon"><i class="glyphicon glyphicon-asterisk"></i></span>
+			 <input class="form-control input-lg" placeholder="Password" required="required" ng-model="password" ng-minlength='6' ng-maxlength='16' type="password" name="password"/>
+		  </div><span class="has-error" ng-show="signinForm.password.$error.minlength">Your password is required to be at least 6 characters!</span>
+				<span class="has-error" ng-show="signinForm.password.$error.maxlength">Your password cannot be longer than 16 characters!</span><br/>
+
+		<!---Submit button-->
+		   <div class="form-group">
+			  <button type="submit" class="btn btn-block btn-primary btn-lg">Sign In</button>
+		   </div>
+		   
+	</form>
+            
+</div>
