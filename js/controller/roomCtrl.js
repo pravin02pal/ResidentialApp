@@ -80,7 +80,7 @@ app.controller('roomCtrl',function ($scope,$rootScope,$http,$location,toaster,$r
     //room alloted to the new user
     $scope.assign_room = function()
      {
-		 $scope.add_user = SharedService.getUserDetail();
+		 $scope.add_user = SharedService.getUser();
 		 console.log($scope.room_id)
 		 if(angular.isObject($scope.room_id))
 		 {
@@ -101,7 +101,7 @@ app.controller('roomCtrl',function ($scope,$rootScope,$http,$location,toaster,$r
      
      //find all room details which is not alloted any users
 	 $scope.getNotAllotedRooms = function()
-	 {   $scope.room_id= "hello";
+	 {  
 		 $scope.users=[];
 		 $scope.user=[];
 		 
@@ -114,7 +114,8 @@ app.controller('roomCtrl',function ($scope,$rootScope,$http,$location,toaster,$r
 			     {   
 				     $scope.user[i] = $scope.users[i].room_id;
 			     }  
-		      }			  
+		      }	
+		      console.log($scope.user);		  
 	      }).
 	        error(function(data, status, headers, config) {
 		       toaster.pop('error', "Error!", data.errors);
@@ -145,7 +146,7 @@ app.controller('roomCtrl',function ($scope,$rootScope,$http,$location,toaster,$r
 				  } 
 		        }
 		        
-		       	$scope.room_id = $scope.selected_rooms[0];	
+		       
 		       	console.log($scope.selected_rooms);
 		       	
 	        }).

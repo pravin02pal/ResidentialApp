@@ -144,7 +144,7 @@ app.controller('userCtrl',function ($scope,$rootScope,$location,$http,toaster,$r
 			    }  
 			 }
 			
-		     SharedService.setUserDetail($scope.user);
+		     SharedService.setUser($scope.user);
 		 }).
 	      error(function(data, status, headers, config) {
 		      toaster.pop('error', "Error!", data.errors);
@@ -168,15 +168,16 @@ app.controller('userCtrl',function ($scope,$rootScope,$location,$http,toaster,$r
 				    break;	
 			      }  
 			   }
+			   console.log($scope.user);
+			   $scope.cancel_room_id = $scope.user.room_id;
 			   $http.post(url+'/users/update_profile?api_token='+$rootScope.current_user.api_token+'&id='+id+'&user[first_name]='+$scope.user.first_name+'&user[last_name]='+$scope.user.last_name+'&user[gender]='+$scope.user.gender+'&user[address]='+$scope.user.address+'&user[identity_number]='+$scope.user.identity_number+'&user[aadhar_number]='+$scope.user.aadhar_number+'&user[pan_number]='+$scope.user.pan_number+'&user[status]='+$scope.user.status+'&user[phone]='+$scope.user.phone+'&user[room_id]='+' '+'').
                   success(function(data, status, headers, config) {
-					  alert("hello");
-			         $location.path("/room/"+$scope.user.room_id+"/cancel");
 			         toaster.pop('success', "Successfully Room Cancel!");
 	              }).
 	               error(function(data, status, headers, config) {
 		             toaster.pop('error', "Error!", data.errors);
 	               }); 
+	                $location.path("/room/"+$scope.cancel_room_id+"/cancel");
 		 }).
 		  error(function(data, status, headers, config) {
 		      toaster.pop('error', "Error!", data.errors);
