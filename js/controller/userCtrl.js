@@ -183,6 +183,73 @@ app.controller('userCtrl',function ($scope,$rootScope,$location,$http,toaster,$r
 		      toaster.pop('error', "Error!", data.errors);
 	      });
 	 };
+	 
+	 //calculate Pending
+	 $scope.calculatePending = function(){
+		$scope.disabled = true;
+		var id = $routeParams.id;
+		$scope.users = [];
+		
+		$http.get(url+'/users/?api_token='+$rootScope.current_user.api_token+'').
+            success(function(data, status, headers, config) {
+		       $scope.users = data.users;
+
+		       for(i in $scope.users)
+			   {
+			      if(id == $scope.users[i].id)
+			      {
+				    $scope.user = $scope.users[i];
+				    break;	
+			      }  
+			   }
+			   
+			   $http.get(url+'/rooms/'+$scope.user.room_id+'?api_token='+$rootScope.current_user.api_token+'').
+				   success(function(data, status, headers, config) { 
+					  $scope.room = data.rooms;
+					  $scope.pending_amount = $scope.room.rent - $scope.paid_amount;
+				   }).
+				   error(function(data, status, headers, config) {
+					  toaster.pop('error', "Error!", data.errors);
+				   });
+	        }).
+		    error(function(data, status, headers, config) {
+		      toaster.pop('error', "Error!", data.errors);
+	        });
+ };
+	 
+	 //take rent 
+     $scope.takeRent = function(){
+		 
+		 var id = $routeParams.id;
+		 $scope.users = [];
+		 
+		 $http.get(url+'/users/?api_token='+$rootScope.current_user.api_token+'').
+            success(function(data, status, headers, config) {
+		       $scope.users = data.users;
+
+		       for(i in $scope.users)
+			   {
+			      if(id == $scope.users[i].id)
+			      {
+				    $scope.user = $scope.users[i];
+				    break;	
+			      }  
+			   }
+			   
+			   $http.post(url+'/rents?api_token='+$rootScope.current_user.api_token+'&rent[user_id]='+$scope.user.id+'&rent[room_id]='+$scope.user.room_id+'&rent[paid_amount]='+$scope.paid_amount+'&rent[pending_amount]='+$scope.pending_amount+'&rent[paid_date]='+$scope.paid_date+'').
+                  success(function(data, status, headers, config) {
+			         toaster.pop('success', "Successfully Rent Paid");
+	              }).
+	              error(function(data, status, headers, config) {
+		             toaster.pop('error', "Error!", data.errors);
+	              }); 
+	              
+		 }).
+		  error(function(data, status, headers, config) {
+		      toaster.pop('error', "Error!", data.errors);
+	      });
+	 };
+	 
      //get location through typeahead
      $scope.getLocation = function(val) {
         return $http.get('http://maps.googleapis.com/maps/api/geocode/json', {

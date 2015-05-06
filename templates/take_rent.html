@@ -1,0 +1,36 @@
+<div ng-controller="userCtrl">
+	
+   <h1>Take Rent</h1><br></br>
+  	
+      <!---Form name=rentForm-->
+         <form name="rentForm">	
+    	
+			   <!---Input date , ngmodel=paid_date-->
+			   <div class="input-group ">
+				  <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+				  <div id="date">
+					  <quick-datepicker ng-model='paid_date' placeholder="Pick Date" disable-timepicker='true' date-format="dd/MM/yyyy"></quick-datepicker>
+				   </div>
+			   </div><br/>
+      
+				<!---Input paid amount, type=number, ngmodel=paid_amount-->
+			   <div class="input-group ">
+				  <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+				  <input class="form-control input-lg" ng-model="paid_amount" ng-blur="calculatePending()" placeholder="Paid Amount" required="required" maxlength="100" type="number" />
+			   </div><br/>
+       
+			   <!---Input pending amount, type=number, name=type, ngmodel=pending_amount-->
+			   <div class="input-group ">
+				  <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+				  <input class="form-control input-lg" ng-model="pending_amount" ng-disabled="disabled" placeholder="pending_amount" required="required" maxlength="100" type="number" />
+			   </div><br/>
+       
+			  <!---Submit button, type=submit-->
+			   <div class="form-group">
+				  <button type="submit" class="btn btn-block btn-primary ">Save</button>
+			   </div>
+      
+         </form>
+    
+</div>
+

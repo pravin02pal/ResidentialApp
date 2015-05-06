@@ -110,6 +110,16 @@ app.config(function($routeProvider){
                 controller: "roomCtrl",
                 resolve: isLogged = true
 		  })
+		  .when('/user/:id/take/rent',{
+                templateUrl: 'templates/take_rent.html',
+                controller: "userCtrl",
+                resolve: isLogged = true
+		  })
+		  .when('/user/:id/rent/history',{
+                templateUrl: 'templates/rent_history.html',
+                controller: "userCtrl",
+                resolve: isLogged = true
+		  })
 		  .otherwise({
         redirectTo: '/home'
       });
