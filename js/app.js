@@ -115,6 +115,11 @@ app.config(function($routeProvider){
                 controller: "userCtrl",
                 resolve: isLogged = true
 		  })
+		  .when('/room/:id/rent/paid',{
+                templateUrl: 'templates/users_list.html',
+                controller: "userCtrl",
+                resolve: isLogged = true
+		  })
 		  .when('/user/:id/rent/history',{
                 templateUrl: 'templates/rent_history.html',
                 controller: "userCtrl",

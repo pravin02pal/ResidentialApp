@@ -5,7 +5,7 @@
 
   app.provider("ngQuickDateDefaults", function() {
     return {
-      options: {
+      options: { 
         dateFormat: 'M/d/yyyy',
         timeFormat: 'h:mm a',
         labelFormat: null,
