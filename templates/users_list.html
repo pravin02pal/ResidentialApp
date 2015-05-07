@@ -40,8 +40,8 @@
 		      <a href="#/user/{{user.id}}/deleted" title="Delete Profile" ng-click="deleteUser(user.id)"><span><i class="glyphicon glyphicon-trash"></i></span></a>&nbsp; &nbsp;| &nbsp; &nbsp;
 		      <a href="#/assignRoom" ng-show="user.room_id == null" ng-click="issueRoom(user.id)" title="Assign Room" ><span><i class="glyphicon glyphicon-home"></i></span></a>
 		      <a ng-show="user.room_id != null"  ng-click="cancelRoom(user.id)" title="Cancel Room" ><span><i class="glyphicon glyphicon-remove-circle"></i></span></a>&nbsp; &nbsp;| &nbsp; &nbsp;
-		      <a href="#/user/{{user.id}}/take/rent" ng-show="user.room_id != null"  title="Take Rent" ><span><i class="glyphicon glyphicon-usd"></i></span></a>&nbsp; &nbsp;| &nbsp; &nbsp;
-		      <a href="#/user/{{user.id}}/rent/history" title="Rent History" ><span><i class="glyphicon glyphicon-remove-header"></i></span></a>
+		      <a href="#/user/{{user.id}}/take/rent" ng-show="user.room_id != null" title="Take Rent" ><span><i class="glyphicon glyphicon-usd"></i></span></a>&nbsp; &nbsp;| &nbsp; &nbsp;
+		      <a href="#/user/{{user.id}}/rent/history" title="Rent History" ><span><i class="glyphicon glyphicon-header"></i></span></a>
 		  </td>
         </tr>
       </tbody>

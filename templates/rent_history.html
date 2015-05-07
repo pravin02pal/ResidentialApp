@@ -1,1 +1,27 @@
+<div ng-init="rentHistory()" ng-controller="userCtrl">
+	
+	<!--Rent History -->
+	
+	<div  class="container" >
+		<h1>Rent History</h1>
+	</div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Paid Rent</th>
+          <th>Pending Rent</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="rent in rents">
+          <td>{{ rent.paid_date | date:'MM/dd/yyyy' }}</td>
+		  <td>{{ rent.paid_amount }}</td>
+		  <td>{{ rent.pending_amount }}</td>
+		  <td><a title="Print Invoice" ><span><i class="glyphicon glyphicon-print"></i></span></a></td>
+        </tr>
+      </tbody>
+    </table>
+</div>
 
