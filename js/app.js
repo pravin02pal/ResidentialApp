@@ -120,6 +120,11 @@ app.config(function($routeProvider){
                 controller: "userCtrl",
                 resolve: isLogged = true
 		  })
+		  .when('/show/user/:id/date/:paid_date/invoice',{
+                templateUrl: 'templates/invoice.html',
+                controller: "userCtrl",
+                resolve: isLogged = true
+		  })
 		  .when('/user/:id/rent/history',{
                 templateUrl: 'templates/rent_history.html',
                 controller: "userCtrl",

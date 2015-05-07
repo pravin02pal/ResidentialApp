@@ -216,12 +216,12 @@ app.controller('userCtrl',function ($scope,$rootScope,$location,$http,toaster,$r
 			                    {								
 			                        if(i == $scope.rents.length-1)
 			                        {
-				                        $scope.pre_pending_amount = $scope.rents[i].pending_amount;				                        
+				                        $scope.previous_pending_amount = $scope.rents[i].pending_amount;				                        
 				                        break;	
 			                        }  
 			                    }
 			                    
-			                    $scope.pending_amount = $scope.room.rent + $scope.pre_pending_amount - $scope.paid_amount;
+			                    $scope.pending_amount = $scope.room.rent + $scope.previous_pending_amount - $scope.paid_amount;
 	                        }).
 	                        error(function(data, status, headers, config) {
 		                        toaster.pop('error', "Error!", data.errors);
@@ -287,6 +287,70 @@ app.controller('userCtrl',function ($scope,$rootScope,$location,$http,toaster,$r
 		        toaster.pop('error', "Error!", data.errors);
 	        }); 
 	    	
+	};
+	
+	//generate Invoice
+	$scope.generateInvoice = function()
+	{
+		var id = $routeParams.id;
+		var date = $routeParams.paid_date;
+		var c = 0;
+	    $scope.users = [];
+	    $scope.rents = [];
+		
+		$http.get(url+'/users/?api_token='+$rootScope.current_user.api_token+'').
+            success(function(data, status, headers, config) {
+		        $scope.users = data.users;
+
+		        for(i in $scope.users)
+			    {
+			        if(id == $scope.users[i].id)
+			        {
+				        $scope.user = $scope.users[i];
+				        break;	
+			        }  
+			    }
+			    
+			    $http.get(url+'/rooms/'+$scope.user.room_id+'?api_token='+$rootScope.current_user.api_token+'').
+				    success(function(data, status, headers, config) { 
+					    $scope.room = data.rooms;
+					    $http.get(url+'/rents?api_token='+$rootScope.current_user.api_token+'&user_id='+$scope.user.id+'').
+                            success(function(data, status, headers, config) {
+			                    $scope.rents = data.rents;
+			                    
+			                    for(i in $scope.rents)
+			                    {
+									c++;
+			                        if(date == $scope.rents[i].paid_date)
+			                        {
+				                        $scope.rent = $scope.rents[i];
+				                        break;	
+			                        }
+			                    }
+			                    for(i in $scope.rents)
+			                    {
+								    if(i == c-2)
+			                        {
+				                       $scope.previous_pending_amount=$scope.rents[i].pending_amount;
+			                        } 
+								}
+			                    
+			                    $scope.total_amount = $scope.room.rent + $scope.previous_pending_amount;
+			                    $scope.pending = $scope.total_amount - $scope.rent.paid_amount;
+			                }).
+	                        error(function(data, status, headers, config) {
+		                        toaster.pop('error', "Error!", data.errors);
+	                        });
+					    
+				    }).
+				    error(function(data, status, headers, config) {
+					    toaster.pop('error', "Error!", data.errors);
+				    });     
+			                    
+			}).
+	        error(function(data, status, headers, config) {
+		        toaster.pop('error', "Error!", data.errors);
+	        });   
 	};
 	 
     //get location through typeahead
