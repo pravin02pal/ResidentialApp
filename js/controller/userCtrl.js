@@ -1,4 +1,4 @@
-app.controller('userCtrl',function ($scope,$rootScope,$location,$http,toaster,$routeParams,url,SharedService){
+app.controller('userCtrl',function ($scope,$rootScope,$location,$http,toaster,$routeParams,url,SharedService,ngProgress){
       
 	$rootScope.isLogged = false;
 	$scope.gender_opts = [{name: 'Male', value: 'male' }, {name: 'Female', value: 'female' }];
@@ -10,6 +10,7 @@ app.controller('userCtrl',function ($scope,$rootScope,$location,$http,toaster,$r
  	//login process
 	$scope.logIn = function()
 	{
+		ngProgress.start();
 	    var email = $scope.email;
 		var password = $scope.password;
 		$rootScope.currentUser = [];
@@ -21,10 +22,12 @@ app.controller('userCtrl',function ($scope,$rootScope,$location,$http,toaster,$r
 			    $rootScope.current_user = data.users;
 			    $rootScope.login = true;
 			    $rootScope.isLogged = true;
+			    ngProgress.complete();
 			    $location.path("/welcome");
 			    toaster.pop('success', "Successfully Login!", $rootScope.current_user.first_name);
 		    }).
 		    error(function(data, status, headers, config) {
+				ngProgress.complete();
 			    toaster.pop('error', "Error!", data.errors);
 		    });
 	};
@@ -32,81 +35,88 @@ app.controller('userCtrl',function ($scope,$rootScope,$location,$http,toaster,$r
 	//addUser process
     $scope.addUser = function()
     {
+		ngProgress.start();
 	    $http.post(url+'/users?user[email]='+$scope.email+'&user[password]='+$scope.password+'&user[first_name]='+$scope.first_name+'&user[last_name]='+$scope.last_name+'&user[address]='+$scope.address+'&user[phone]='+$scope.phone+'&user[identity_number]='+$scope.identity_number+'&user[pan_number]='+$scope.pan_number+'&user[aadhar_number]='+$scope.aadhar_number+'&user[status]='+$scope.status.name+'&user[gender]='+$scope.gender.name+'').
             success(function(data, status, headers, config) {
 		        $scope.add_user = data.users;       
 		        SharedService.setUserDetail($scope.add_user);       
                 $location.path("/assign/"+$scope.add_user.first_name+"/room");
 		        toaster.pop('success', "Successfully Add User!");
+		        ngProgress.complete();
 	        }).
 	        error(function(data, status, headers, config) {
 		        toaster.pop('error', "Error!", data.errors);
+		        ngProgress.complete();
 	        });
     };
 	
 	//logOut process 
 	$scope.logOut = function()
     {
+		ngProgress.start();
 	    $http.get(url+'/users/logout?api_token='+$rootScope.current_user.api_token+'').
             success(function(data, status, headers, config) {
 		        $rootScope.isLogged = false;
                 $rootScope.login = false;
+                 ngProgress.complete();
                 $location.path("/user/"+$rootScope.current_user.first_name+"/logout");
 		        toaster.pop('success', data.message);
+		       
 	        }).
 	        error(function(data, status, headers, config) {
 		        toaster.pop('error', "Error!", data.errors);
+		        ngProgress.complete();
 	        });
     };
      
     //userList
     $scope.usersList = function()
     {
+		ngProgress.start();
 	    $scope.users=[];
 	    
         $http.get(url+'/users?api_token='+$rootScope.current_user.api_token+'').
             success(function(data, status, headers, config) {
 			    $scope.users = data.users;
+			    ngProgress.complete();
 	        }).
 	        error(function(data, status, headers, config) {
 		        toaster.pop('error', "Error!", data.errors);
+		        ngProgress.complete();
 	        });
     };
      
     //delete user
     $scope.deleteUser = function(id)
     {
+		ngProgress.start();
 	    $scope.id = $routeParams.id;	
 	    
 		$http.get(url+'/users/'+id+'/delete?api_token='+$rootScope.current_user.api_token+'').
             success(function(data, status, headers, config) {	   
 		 	    toaster.pop('success', "Successfully Delete!");
+		 	    ngProgress.complete();
 		    }).
 	        error(function(data, status, headers, config) {
 		        toaster.pop('error', "Error!", data.errors);
+		        ngProgress.complete();
 	        });
     };
  
     //edit user details show on edit page
     $scope.editUser = function()
     {  
+		ngProgress.start();
 	    var id = $routeParams.id;
     		 
-	  	$http.get(url+'/users?api_token='+$rootScope.current_user.api_token+'').
+	  	$http.get(url+'/users/'+id+'?api_token='+$rootScope.current_user.api_token+'').
             success(function(data, status, headers, config) {
-		        $scope.users_details = data.users;	
-			
-	     		for(i in $scope.users_details)
-		    	{
-			        if(id == $scope.users_details[i].id)
-			        {
-				        $scope.user = $scope.users_details[i];    
-	 			        break;	
-			        }
-			    }  
+		        $scope.user = data.users;	
+				ngProgress.complete(); 
 		    }).
 	        error(function(data, status, headers, config) {
 		        toaster.pop('error', "Error!", data.errors);
+		        ngProgress.complete();
 	        });
    
 	};
@@ -114,73 +124,60 @@ app.controller('userCtrl',function ($scope,$rootScope,$location,$http,toaster,$r
 	//save after edit user profile
 	$scope.updateUser = function(id)
 	{   
-	   
+	    ngProgress.start();
 	    $http.post(url+'/users/update_profile?api_token='+$rootScope.current_user.api_token+'&id='+id+'&user[first_name]='+$scope.user.first_name+'&user[last_name]='+$scope.user.last_name+'&user[gender]='+$scope.user.gender+'&user[address]='+$scope.user.address+'&user[identity_number]='+$scope.user.identity_number+'&user[aadhar_number]='+$scope.user.aadhar_number+'&user[pan_number]='+$scope.user.pan_number+'&user[status]='+$scope.user.status+'&user[phone]='+$scope.user.phone+'').
             success(function(data, status, headers, config) {
 			    $location.path("/user/"+$scope.user.id+"/updated");
 			    toaster.pop('success', "Successfully Updated!");
+			    ngProgress.complete();
 	        }).
 	        error(function(data, status, headers, config) {
 		        toaster.pop('error', "Error!", data.errors);
+		        ngProgress.complete();
 	        });
     };
      
     //when user click assign room on user list page 
     $scope.issueRoom = function(id)
     {
-	    $scope.users = [];
+		ngProgress.start();
 	    
-		$http.get(url+'/users/?api_token='+$rootScope.current_user.api_token+'').
+		$http.get(url+'/users/'+id+'?api_token='+$rootScope.current_user.api_token+'').
             success(function(data, status, headers, config) {
-		        $scope.users = data.users;
-
-		        for(i in $scope.users)
-			    {
-			        if(id == $scope.users[i].id)
-			        {
-				        $scope.user = $scope.users[i];
-				        break;	
-			        }  
-			    }
-			
+		        $scope.user = data.users;
 		        SharedService.setUser($scope.user);
+		        ngProgress.complete();
 		    }).
 	        error(function(data, status, headers, config) {
 		        toaster.pop('error', "Error!", data.errors);
+		        ngProgress.complete();
 	        });   
 	};
      
     //Cancel room 
     $scope.cancelRoom = function(id)
-    {		 
-	    $scope.users = [];
+    {	
+		ngProgress.start();	 
 		 
-		$http.get(url+'/users/?api_token='+$rootScope.current_user.api_token+'').
+		$http.get(url+'/users/'+id+'?api_token='+$rootScope.current_user.api_token+'').
             success(function(data, status, headers, config) {
-		        $scope.users = data.users;
-
-		        for(i in $scope.users)
-			    {
-			        if(id == $scope.users[i].id)
-			        {
-				        $scope.user = $scope.users[i];
-				        break;	
-			        }  
-			    }
-			 
+		        $scope.user = data.users;
 			    $scope.cancel_room_id = $scope.user.room_id;
 			    
 			    $http.post(url+'/users/update_profile?api_token='+$rootScope.current_user.api_token+'&id='+id+'&user[first_name]='+$scope.user.first_name+'&user[last_name]='+$scope.user.last_name+'&user[gender]='+$scope.user.gender+'&user[address]='+$scope.user.address+'&user[identity_number]='+$scope.user.identity_number+'&user[aadhar_number]='+$scope.user.aadhar_number+'&user[pan_number]='+$scope.user.pan_number+'&user[status]='+$scope.user.status+'&user[phone]='+$scope.user.phone+'&user[room_id]='+' '+'').
                     success(function(data, status, headers, config) {
 			            toaster.pop('success', "Successfully Room Cancel!");
+			            ngProgress.complete();
 	                }).
 	                error(function(data, status, headers, config) {
 		                toaster.pop('error', "Error!", data.errors);
+		                ngProgress.complete();
 	                }); 
 	                $location.path("/room/"+$scope.cancel_room_id+"/cancel");
 		    }).
 		    error(function(data, status, headers, config) {
 		        toaster.pop('error', "Error!", data.errors);
+		        ngProgress.complete();
 	        });
 	};
 	 
@@ -189,21 +186,11 @@ app.controller('userCtrl',function ($scope,$rootScope,$location,$http,toaster,$r
 	{
 	    $scope.disabled = true;
 		var id = $routeParams.id;
-		$scope.users = [];
 		$scope.rents = [];
 		
-		$http.get(url+'/users/?api_token='+$rootScope.current_user.api_token+'').
+		$http.get(url+'/users/'+id+'?api_token='+$rootScope.current_user.api_token+'').
             success(function(data, status, headers, config) {
-		        $scope.users = data.users;
-
-		        for(i in $scope.users)
-			    {
-			        if(id == $scope.users[i].id)
-			        {
-				        $scope.user = $scope.users[i];
-				        break;	
-			        }  
-			    }
+		        $scope.user = data.users;
 			   
 			    $http.get(url+'/rooms/'+$scope.user.room_id+'?api_token='+$rootScope.current_user.api_token+'').
 				    success(function(data, status, headers, config) { 
@@ -240,41 +227,36 @@ app.controller('userCtrl',function ($scope,$rootScope,$location,$http,toaster,$r
 	//take rent 
     $scope.takeRent = function()
     {
+		ngProgress.start();
 	    var id = $routeParams.id;
-		$scope.users = [];
 		$scope.rents = [];
 		 
-		$http.get(url+'/users/?api_token='+$rootScope.current_user.api_token+'').
+		$http.get(url+'/users/'+id+'?api_token='+$rootScope.current_user.api_token+'').
             success(function(data, status, headers, config) {
 		        $scope.users = data.users;
-
-		        for(i in $scope.users)
-			    {
-			        if(id == $scope.users[i].id)
-			        {
-				        $scope.user = $scope.users[i];
-				        break;	
-			        }  
-			    }
 			    
 			    $http.post(url+'/rents?api_token='+$rootScope.current_user.api_token+'&rent[user_id]='+$scope.user.id+'&rent[room_id]='+$scope.user.room_id+'&rent[paid_amount]='+$scope.paid_amount+'&rent[pending_amount]='+$scope.pending_amount+'&rent[paid_date]='+$scope.paid_date+'').
                     success(function(data, status, headers, config) {
 			            toaster.pop('success', "Successfully Rent Paid"); 
 			            $location.path("/room/"+$scope.user.room_id+"/rent/paid");
+			            ngProgress.complete();
 	                }).
 	                error(function(data, status, headers, config) {
 		                toaster.pop('error', "Error!", data.errors);
+		                ngProgress.complete();
 	                }); 
 	              
 		    }).
 		    error(function(data, status, headers, config) {
 		        toaster.pop('error', "Error!", data.errors);
+		        ngProgress.complete();
 	        });
 	};
 	
 	//rent history
 	$scope.rentHistory = function()
 	{
+		ngProgress.start();
 	    var id = $routeParams.id;
 	    
 	    $scope.rents = [];
@@ -282,9 +264,11 @@ app.controller('userCtrl',function ($scope,$rootScope,$location,$http,toaster,$r
 	    $http.get(url+'/rents?api_token='+$rootScope.current_user.api_token+'&user_id='+id+'').
             success(function(data, status, headers, config) {
 			    $scope.rents = data.rents; 
+			    ngProgress.complete();
 	        }).
 	        error(function(data, status, headers, config) {
 		        toaster.pop('error', "Error!", data.errors);
+		        ngProgress.complete();
 	        }); 
 	    	
 	};
@@ -292,25 +276,15 @@ app.controller('userCtrl',function ($scope,$rootScope,$location,$http,toaster,$r
 	//generate Invoice
 	$scope.generateInvoice = function()
 	{
+		ngProgress.start();
 		var id = $routeParams.id;
 		var date = $routeParams.paid_date;
-		var c = 0;
-	    $scope.users = [];
 	    $scope.rents = [];
 		
-		$http.get(url+'/users/?api_token='+$rootScope.current_user.api_token+'').
+		$http.get(url+'/users/'+id+'?api_token='+$rootScope.current_user.api_token+'').
             success(function(data, status, headers, config) {
-		        $scope.users = data.users;
+		        $scope.user = data.users;
 
-		        for(i in $scope.users)
-			    {
-			        if(id == $scope.users[i].id)
-			        {
-				        $scope.user = $scope.users[i];
-				        break;	
-			        }  
-			    }
-			    
 			    $http.get(url+'/rooms/'+$scope.user.room_id+'?api_token='+$rootScope.current_user.api_token+'').
 				    success(function(data, status, headers, config) { 
 					    $scope.room = data.rooms;
@@ -320,36 +294,31 @@ app.controller('userCtrl',function ($scope,$rootScope,$location,$http,toaster,$r
 			                    
 			                    for(i in $scope.rents)
 			                    {
-									c++;
 			                        if(date == $scope.rents[i].paid_date)
 			                        {
 				                        $scope.rent = $scope.rents[i];
 				                        break;	
 			                        }
 			                    }
-			                    for(i in $scope.rents)
-			                    {
-								    if(i == c-2)
-			                        {
-				                       $scope.previous_pending_amount=$scope.rents[i].pending_amount;
-			                        } 
-								}
-			                    
-			                    $scope.total_amount = $scope.room.rent + $scope.previous_pending_amount;
-			                    $scope.pending = $scope.total_amount - $scope.rent.paid_amount;
+			                   
+			                    $scope.current_date = new Date();
+			                    ngProgress.complete();
 			                }).
 	                        error(function(data, status, headers, config) {
 		                        toaster.pop('error', "Error!", data.errors);
+		                        ngProgress.complete();
 	                        });
 					    
 				    }).
 				    error(function(data, status, headers, config) {
 					    toaster.pop('error', "Error!", data.errors);
+					    ngProgress.complete();
 				    });     
 			                    
 			}).
 	        error(function(data, status, headers, config) {
 		        toaster.pop('error', "Error!", data.errors);
+		        ngProgress.complete();
 	        });   
 	};
 	 

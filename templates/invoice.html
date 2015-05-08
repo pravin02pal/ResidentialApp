@@ -1,30 +1,39 @@
-<table id="save_pdf"  ng-init="generateInvoice()" ng-controller="userCtrl">
+<a onClick ="$('#save_pdf').tableExport({type:'pdf',escape:'false',separator:''});" title="Show pdf" ><span><i class="glyphicon glyphicon-save" style="color:white;font-size: 25px"></i></span></a>
+
+<table id="save_pdf"  ng-init="generateInvoice()" class="table" ng-controller="userCtrl">
 	<thead>	
 	    <tr>
-			<th>Name :{{ user.first_name }} {{user.last_name}}</th>
-	    </tr>		
-		<tr>
-			<th>Room No. :{{ room.rnumber }}</th>
-		</tr>
-		<tr>
-          <th>Date</th>
-          <th>Rent</th>
-          <th>Last Month Pending</th>
-          <th>Total</th>
-          <th>Paid Amount</th>
-          <th>Pending</th>
-          <th>Action</th>
-        </tr>
+			<th id="th12" colspan="4">Rent invoice </th>
+	    </tr>
 	</thead>
 	<tbody>
 		<tr>
+			<td>Invoice No : {{room.id}}</td>
+	    </tr>
+		<tr>
+			<td>Name : {{ user.first_name }} {{ user.last_name}}</td>
+	    </tr>		
+		<tr >
+			<td>Room No : {{ room.rnumber}}</td>
+		</tr>
+		<tr>
+          <td>Date</td>
+          <td>Rent</td>
+          <td>Paid Amount</td>
+          <td>Pending</td>
+        </tr>
+		<tr>
 	       <td>{{ rent.paid_date | date:'dd/MM/yyyy' }}</td>
-		   <td>{{ room.rent }}</td>
-		   <td>{{ previous_pending_amount }}</td>
-		   <td>{{ total_amount }}</td>		
+		   <td>{{ room.rent }}</td>	
 		   <td>{{ rent.paid_amount }}</td>
-		   <td>{{ pending }}</td>		  	
-		   <td><a onClick ="$('#save_pdf').tableExport({type:'pdf'});" title="Download pdf" ><span><i class="glyphicon glyphicon-save"></i></span></a></td>		  	
+		   <td>{{ rent.pending_amount }}</td>		  			  	
+		</tr>
+		<tr>
+		  <td>Date : {{current_date | date:'dd/MM/yyyy'}}</td>
+		</tr>
+		<tr>
+	       <td colspan="4">Signature</td>		  			  	
+	       	
 		</tr>
 		
 	</tbody>

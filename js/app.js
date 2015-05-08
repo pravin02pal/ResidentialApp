@@ -1,4 +1,4 @@
-var app=angular.module('residentialapp',['ngRoute','toaster','ngAnimate','ngQuickDate','ui.bootstrap']);
+var app=angular.module('residentialapp',['ngRoute','toaster','ngAnimate','ngQuickDate','ui.bootstrap','ngProgress']);
 app.value("url", "http://pravinpal.herokuapp.com/");
 app.config(function($routeProvider){
       $routeProvider
