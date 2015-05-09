@@ -20,6 +20,7 @@ app.controller('userCtrl',function ($scope,$rootScope,$location,$http,toaster,$r
 		$http.post(url+'/users/sign_in?user[email]='+email+'&user[password]='+password+'').
 		    success(function(data, status, headers, config) {
 			    $rootScope.current_user = data.users;
+			    sessionStorage.user = JSON.stringify($rootScope.current_user);
 			    $rootScope.login = true;
 			    $rootScope.isLogged = true;
 			    ngProgress.complete();
@@ -58,6 +59,7 @@ app.controller('userCtrl',function ($scope,$rootScope,$location,$http,toaster,$r
             success(function(data, status, headers, config) {
 		        $rootScope.isLogged = false;
                 $rootScope.login = false;
+                sessionStorage.user = null;
                  ngProgress.complete();
                 $location.path("/user/"+$rootScope.current_user.first_name+"/logout");
 		        toaster.pop('success', data.message);
