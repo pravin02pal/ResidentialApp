@@ -1,6 +1,5 @@
 app.controller('userCtrl',function ($scope,$rootScope,$location,$http,toaster,$routeParams,url,SharedService,ngProgress){
       
-	$rootScope.isLogged = false;
 	$scope.gender_opts = [{name: 'Male', value: 'male' }, {name: 'Female', value: 'female' }];
 	$scope.gender = $scope.gender_opts[0];
 	
@@ -11,16 +10,18 @@ app.controller('userCtrl',function ($scope,$rootScope,$location,$http,toaster,$r
 	$scope.logIn = function()
 	{
 		ngProgress.start();
+		
 	    var email = $scope.email;
 		var password = $scope.password;
 		$rootScope.currentUser = [];
 		$rootScope.login = false;
+		$rootScope.isLogged = false;
 		var flag = 0;  
 		
 		$http.post(url+'/users/sign_in?user[email]='+email+'&user[password]='+password+'').
 		    success(function(data, status, headers, config) {
 			    $rootScope.current_user = data.users;
-			    sessionStorage.user = JSON.stringify($rootScope.current_user);
+			    sessionStorage.user = angular.toJson($rootScope.current_user);
 			    $rootScope.login = true;
 			    $rootScope.isLogged = true;
 			    ngProgress.complete();
@@ -32,7 +33,7 @@ app.controller('userCtrl',function ($scope,$rootScope,$location,$http,toaster,$r
 			    toaster.pop('error', "Error!", data.errors);
 		    });
 	};
-	 
+		 
 	//addUser process
     $scope.addUser = function()
     {

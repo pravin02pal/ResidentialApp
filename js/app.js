@@ -4,11 +4,11 @@ app.config(function($routeProvider){
       $routeProvider
           .when('/home',{
                 templateUrl: 'templates/home.html',
+                controller: "userCtrl"    
           })
           .when('/signin',{
                 templateUrl: 'templates/signin.html',
-                controller: "userCtrl",
-                resolve: isLogged = false
+                controller: "userCtrl"
           })
 	     .when('/user/:full_name/add',{
                 templateUrl: 'templates/users_list.html',
@@ -135,18 +135,24 @@ app.config(function($routeProvider){
       });
 }).run(function($rootScope, $location) {
     $rootScope.$on( "$routeChangeStart", function(event, next, current) {
-      if ($rootScope.current_user == undefined && !(sessionStorage.user == null)) {
-		$rootScope.current_user = JSON.parse(sessionStorage.user);
-		console.log($rootScope.current_user)
-		$rootScope.login = true;
-		$rootScope.isLogged = true;
-      }
-	  //~ $location.path(current);
-      if ($rootScope.isLogged == false) {
-        // no logged user, redirect to /login
-        if ( !next.templateUrl === "templates/signIn.html") {
-          $location.path("/home");
+	 	
+        if ($rootScope.current_user == undefined && (angular.isObject(JSON.parse(sessionStorage.user)))) {
+		   $rootScope.current_user = JSON.parse(sessionStorage.user);
+		   $rootScope.login = true;
+		   $rootScope.isLogged = true;
         }
-      }
+	  
+        if ($rootScope.isLogged == false || $rootScope.isLogged === undefined ) {
+		   if(next.templateUrl == 'templates/signin.html')
+		   {
+		       $location.path("/signin");
+           }else
+            {
+               if(next.templateUrl != 'templates/home.html')
+               {
+			       $location.path("/home"); 
+		       }    
+		    } 
+        }
     });
   });
